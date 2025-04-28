@@ -1,22 +1,6 @@
-const INITIAL_STATE ={
-    description: 'Ler livro',
-    list: [
-        {
-            _id: 1,
-            description: 'Pagar fatura do cartão',
-            done: true
-        },
-        {
-            _id: 2,
-            description: 'Reunião com a equipe às 10:00',
-            done: false
-        },
-        {
-            _id: 3,
-            description: 'Consulta médica na terça depois do almoço',
-            done: false
-        }
-    ]
+const INITIAL_STATE = {
+    description: '',
+    list: []
 }
 
  const reducer = (state = INITIAL_STATE, action) => {
@@ -25,6 +9,9 @@ const INITIAL_STATE ={
             return { ...state, description: action.payload };
         case "TODO_SEARCHED":
             return { ...state, list: action.payload };
+        case 'TODO_ADDED':
+        case 'TODO_CLEAR':
+            return { ...state, description: "" };
         default:
             return state;
     }

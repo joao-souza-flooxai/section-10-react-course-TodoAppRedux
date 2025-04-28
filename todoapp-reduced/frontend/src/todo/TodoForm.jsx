@@ -1,6 +1,9 @@
 import React from 'react'
 import Grid from '../template/Grid'
 import IconButton from '../template/IconButton'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import {changeDescription} from "./todoActions"
 
 const TodoForm = props => {
     const keyHandler = (e) => {
@@ -14,11 +17,13 @@ const TodoForm = props => {
     return (
         <div role='form' className='todoForm'>
         <Grid cols='12 9 10'>
-            <input id='description' className='form-control' placeholder='Adicione uma tarefa' onChange={props.handleChange} onKeyUp={keyHandler} value={props.description}></input>
+            <input id='description' className='form-control' placeholder='Adicione uma tarefa' 
+                onChange={e => props.changeDescription(e.target.value)}
+                onKeyUp={keyHandler} 
+                value={props.description}></input>
         </Grid>
 
         <Grid cols='12 3 2'>
-            {/* Mudamos o nome da propriedade style para btnStyle, pois o Lint reclamava e essa é a melhor maneira de contornar esse problema */}
             <IconButton btnStyle='primary' icon='plus' onClick={props.handleAdd}></IconButton>
             <IconButton btnStyle='info' icon='search' onClick={props.handleSearch}/>
             <IconButton btnStyle='default' icon='close' onClick={props.handleClear}/>
@@ -27,4 +32,11 @@ const TodoForm = props => {
     )
 }
 
-export default TodoForm
+const mapStateToProps = state =>({
+    description: state.todo.description
+})
+
+const mapDispatchToProps = dispatch =>
+    bindActionCreators({ changeDescription }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);
